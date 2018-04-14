@@ -27,6 +27,8 @@
     <div id="example-3">
         <button v-on:click="say('hi')">Say hi</button>
         <button v-on:click="say('what')">Say what</button>
+        <!-- 可以用特殊变量 $event 在内联语句中传入原始 DOM 事件 -->
+        <button v-on:click="warn('表单还不能被提交。',$event)">Submit</button>
     </div>
 
     <script type="text/javascript">
@@ -51,16 +53,21 @@
                         alert(event.target.tagName);
                     }
                 }
+            
             }
         });
-        // 也可以用 JavaScript 直接调用方法
-        example2.greet();
-
+        // 也可以用 JavaScript 直接调用方法：
+        // example2.greet();
 
         new Vue({
             el:"#example-3",
             methods:{
                 say:function(message){
+                    alert(message);
+                },
+                warn:function(message,event){
+                    // 现在我们可以访问原生事件对象
+                    if(event) event.preventDefault();
                     alert(message);
                 }
             }
