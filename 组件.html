@@ -31,9 +31,73 @@
         <todo-item v-bind="todo" class="darktheme" custom-prop="true"></todo-item>
     </div>
 
+    <div id="counter-event-example">
+        <p>{{total}}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+
+    <div id="message-event-example" class="demo">
+        <p v-for="msg in messages">{{msg}}</p>
+        <button-message v-on:message="handleMessage"></button-message>
+    </div>
     
 
     <script>
+        Vue.component('button-message',{
+            template:`<div>
+                <input type="text" v-model="message" />
+                <button v-on:click="handleSendMessage">Send</button>
+            </div>`,
+            data:function(){
+                return {message:'test message'}
+            },
+            methods:{
+                handleSendMessage:function(){
+                    this.$emit('message',{message:this.message})
+                }
+            }
+        })
+
+        new Vue({
+            el:"#message-event-example",
+            data:{
+                messages:[]
+            },
+            methods:{
+                handleMessage:function(payload){
+                    this.messages.push(payload.message)
+                }
+            }
+        })
+
+        Vue.component('button-counter',{
+            template:'<button v-on:click="incrementCounter">{{counter}}</button>',
+            data:function(){
+                return {
+                    counter:0
+                }
+            },
+            methods:{
+                incrementCounter: function(){
+                    this.counter++;
+                    this.$emit('increment');
+                }
+            }
+        })
+
+        new Vue({
+            el:"#counter-event-example",
+            data:{
+                total:0
+            },
+            methods:{
+                incrementTotal:function(){
+                    this.total++
+                }
+            }
+        })
+
         //注册一个全局组件。确保在初始化根实例之前注册组件。
         Vue.component('my-component',{
             template:'<div>A custom component!</div>'
