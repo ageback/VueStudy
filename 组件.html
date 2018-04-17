@@ -79,8 +79,52 @@
         
         Vue.component('todo-item',{
             props:['text','isComplete'],
-            template: '<span>{{ text }}: {{ isComplete}}</span>'
+
+            // 1、Prop 作为初始值传入后，子组件想把它当作局部数据来用；
+            data:function(){
+                return {textCopy: this.text}
+            },
+
+            // 2、Prop 作为原始数据传入，由子组件处理成其它数据输出。
+            computed:{
+                isNotComplete:function(){
+                    return !this.isComplete
+                }
+            },
+            template: '<span>{{ text }}: {{ isComplete}}, {{ isNotComplete}}</span>'
         })
+
+        Vue.component('example', {
+            props: {
+                // 基础类型检测 (`null` 指允许任何类型)
+                propA: Number,
+                // 可能是多种类型
+                propB: [String, Number],
+                // 必传且是字符串
+                propC: {
+                type: String,
+                required: true
+                },
+                // 数值且有默认值
+                propD: {
+                type: Number,
+                default: 100
+                },
+                // 数组/对象的默认值应当由一个工厂函数返回
+                propE: {
+                type: Object,
+                default: function () {
+                    return { message: 'hello' }
+                }
+                },
+                // 自定义验证函数
+                propF: {
+                validator: function (value) {
+                    return value > 10
+                }
+                }
+            }
+            })
 
         //创建根实例
         new Vue({
