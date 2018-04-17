@@ -14,6 +14,12 @@
         <local-component></local-component>
     </div>
 
+    <div id="example-2">
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+    </div>
+
     <script>
         //注册一个全局组件。确保在初始化根实例之前注册组件。
         Vue.component('my-component',{
@@ -25,12 +31,33 @@
             template:'<div>A custom local component!</div>'
         }
 
+        var data_2 = {counter:0};
+        Vue.component('simple-counter',{
+            template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+            // data 选项必须是 函数
+            // 技术上 data 的确是一个函数了，因此 Vue 不会警告，
+            // 但是我们却给每个组件实例返回了同一个对象的引用
+            data:function(){
+                // 错误做法，三个组件实例共享了同一个 data 对象，因此递增一个 counter 会影响所有组件！
+                // return data_2;
+
+                // 通过为每个组件返回全新的数据对象来修复这个问题
+                return {
+                    counter: 0
+                }
+            }
+
+        })
         //创建根实例
         new Vue({
             el:"#example-1",
             components:{
                 'local-component': Child
             }
+        })
+
+        new Vue({
+            el:"#example-2"
         })
     </script>
 </body>
