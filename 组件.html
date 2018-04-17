@@ -11,6 +11,7 @@
 <body>
     <div id="example-1">
         <my-component></my-component>
+        <local-component></local-component>
     </div>
 
     <script>
@@ -19,9 +20,17 @@
             template:'<div>A custom component!</div>'
         })
 
+        //局部注册
+        var Child = {
+            template:'<div>A custom local component!</div>'
+        }
+
         //创建根实例
         new Vue({
-            el:"#example-1"
+            el:"#example-1",
+            components:{
+                'local-component': Child
+            }
         })
     </script>
 </body>
