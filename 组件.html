@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件</title>
+
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="example-1">
+        <my-component></my-component>
+    </div>
+
+    <script>
+        //注册一个全局组件。确保在初始化根实例之前注册组件。
+        Vue.component('my-component',{
+            template:'<div>A custom component!</div>'
+        })
+
+        //创建根实例
+        new Vue({
+            el:"#example-1"
+        })
+    </script>
+</body>
+</html>
