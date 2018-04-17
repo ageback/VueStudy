@@ -15,10 +15,23 @@
     </div>
 
     <div id="example-2">
+        <input v-model="parentMsg">
+        <br>
+        <!-- 绑定父组件数据 -->
+        <child v-bind:my-message="parentMsg"></child>
+
         <simple-counter></simple-counter>
         <simple-counter></simple-counter>
         <simple-counter></simple-counter>
+        <child message="hello!"></child>
     </div>
+
+    <div id="example-3" v-model="todo">
+        <!--  传递一个对象的所有属性给子组件，使用不带任何参数的 v-bind -->
+        <todo-item v-bind="todo"></todo-item>
+    </div>
+
+    
 
     <script>
         //注册一个全局组件。确保在初始化根实例之前注册组件。
@@ -48,6 +61,27 @@
             }
 
         })
+
+        Vue.component('child',{
+            props:['message','myMessage'],
+            // prop也可以在模板中使用，同样也可以在vm实例中通过 this.message 来使用
+            template:'<span>{{ message }} {{ myMessage}}</span>'
+        })
+
+        Vue.component('todo',{
+            data:{
+                todo:{
+                    text: 'Learn Vue', isComplete: false
+                }
+            }
+        })
+        
+        
+        Vue.component('todo-item',{
+            props:['text','isComplete'],
+            template: '<span>{{ text }}: {{ isComplete}}</span>'
+        })
+
         //创建根实例
         new Vue({
             el:"#example-1",
@@ -57,7 +91,19 @@
         })
 
         new Vue({
-            el:"#example-2"
+            el:"#example-2",
+            data:{
+                parentMsg: 'Message from parent'
+            }
+        })
+
+        new Vue({
+            el: "#example-3",
+            data:{
+                todo:{
+                    text: 'Learn Vue', isComplete: false
+                }
+            }
         })
     </script>
 </body>
