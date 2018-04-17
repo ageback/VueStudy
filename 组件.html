@@ -26,9 +26,9 @@
         <child message="hello!"></child>
     </div>
 
-    <div id="example-3" v-model="todo">
+    <div id="example-3">
         <!--  传递一个对象的所有属性给子组件，使用不带任何参数的 v-bind -->
-        <todo-item v-bind="todo"></todo-item>
+        <todo-item v-bind="todo" class="darktheme" custom-prop="true"></todo-item>
     </div>
 
     
@@ -68,14 +68,6 @@
             template:'<span>{{ message }} {{ myMessage}}</span>'
         })
 
-        Vue.component('todo',{
-            data:{
-                todo:{
-                    text: 'Learn Vue', isComplete: false
-                }
-            }
-        })
-        
         
         Vue.component('todo-item',{
             props:['text','isComplete'],
@@ -91,7 +83,7 @@
                     return !this.isComplete
                 }
             },
-            template: '<span>{{ text }}: {{ isComplete}}, {{ isNotComplete}}</span>'
+            template: '<span class="lighttheme">{{ text }}: {{ isComplete}}, {{ isNotComplete}}</span>'
         })
 
         Vue.component('example', {
